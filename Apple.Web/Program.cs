@@ -1,7 +1,21 @@
+using Apple.Web.Service;
+using Apple.Web.Service.IService;
+using Apple.Web.Utility;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+// To use httpclient we have to use below configurations
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddHttpClient();
+builder.Services.AddHttpClient<ICouponService, CouponService>();
+
+// calling the Coupon API Url from the appsettings.cs file 
+SD.CouponAPIBase = builder.Configuration["ServiceUrls:CouponAPI"];
+
+builder.Services.AddScoped<IBaseService, BaseService>();
+builder.Services.AddScoped<ICouponService, CouponService>();
 
 var app = builder.Build();
 

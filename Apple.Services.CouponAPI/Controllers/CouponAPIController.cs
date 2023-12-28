@@ -7,18 +7,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Apple.Services.CouponAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/coupon")]
     [ApiController]
     public class CouponAPIController : ControllerBase
     {
-        private readonly  AppDbContext _dbcotext;
+        private readonly AppDbContext _dbcotext;
         private ResponseDto _response;
         private IMapper _mapper;
-        public CouponAPIController(AppDbContext dbcontext, IMapper  mapper)
+        public CouponAPIController(AppDbContext dbcontext, IMapper mapper)
         {
             _dbcotext = dbcontext;
             _response = new ResponseDto();
-           
+
             // Using Dependency Injection we will inject Automapper 
             _mapper = mapper;
         }
@@ -30,7 +30,7 @@ namespace Apple.Services.CouponAPI.Controllers
             {
                 IEnumerable<Coupon> objList = _dbcotext.Coupons.ToList();
                 _response.Result = _mapper.Map<IEnumerable<CouponDto>>(objList);
-               
+
             }
             catch (Exception ex)
             {
@@ -47,17 +47,17 @@ namespace Apple.Services.CouponAPI.Controllers
         {
             try
             {
-                Coupon obj = _dbcotext.Coupons.First(u=>u.CouponId== id);
+                Coupon obj = _dbcotext.Coupons.First(u => u.CouponId == id);
 
                 // Below line will automatically convert the Normal Coupon class Object to DTO object 
                 _response.Result = _mapper.Map<CouponDto>(obj);
-              
+
             }
             catch (Exception ex)
             {
 
                 _response.IsSuccess = false;
-                _response.Message= ex.Message;
+                _response.Message = ex.Message;
             }
             return _response;
         }
@@ -68,8 +68,8 @@ namespace Apple.Services.CouponAPI.Controllers
         {
             try
             {
-               Coupon obj = _dbcotext.Coupons.FirstOrDefault(u=>u.CouponCode.ToLower()== code.ToLower());
-                if(obj==null)
+                Coupon obj = _dbcotext.Coupons.FirstOrDefault(u => u.CouponCode.ToLower() == code.ToLower());
+                if (obj == null)
                 {
                     _response.IsSuccess = false;
                 }
@@ -92,7 +92,7 @@ namespace Apple.Services.CouponAPI.Controllers
         {
             try
             {
-                Coupon objCoupon = _mapper.Map<Coupon>(couponDto);  
+                Coupon objCoupon = _mapper.Map<Coupon>(couponDto);
                 _dbcotext.Coupons.Add(objCoupon);
                 _dbcotext.SaveChanges();
                 // Below line will automatically convert the Normal Coupon class Object to DTO object 
@@ -132,6 +132,7 @@ namespace Apple.Services.CouponAPI.Controllers
 
 
         [HttpDelete]
+        [Route("{id:int}")]
         public ResponseDto Delete(int id)
         {
             try
