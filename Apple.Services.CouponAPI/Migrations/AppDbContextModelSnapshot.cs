@@ -52,7 +52,7 @@ namespace Apple.Services.CouponAPI.Migrations
                         {
                             CouponId = 1,
                             CouponCode = "10OFF",
-                            CreatedDateTime = new DateTime(2023, 12, 26, 18, 11, 39, 847, DateTimeKind.Local).AddTicks(3653),
+                            CreatedDateTime = new DateTime(2023, 12, 28, 20, 40, 22, 520, DateTimeKind.Local).AddTicks(5779),
                             DiscountAmount = 10.0,
                             MinAmount = 10
                         },
@@ -60,7 +60,7 @@ namespace Apple.Services.CouponAPI.Migrations
                         {
                             CouponId = 2,
                             CouponCode = "20OFF",
-                            CreatedDateTime = new DateTime(2023, 12, 26, 18, 11, 39, 847, DateTimeKind.Local).AddTicks(3696),
+                            CreatedDateTime = new DateTime(2023, 12, 28, 20, 40, 22, 520, DateTimeKind.Local).AddTicks(5819),
                             DiscountAmount = 20.0,
                             MinAmount = 20
                         });
