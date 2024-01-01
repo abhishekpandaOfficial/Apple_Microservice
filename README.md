@@ -8,9 +8,9 @@ ELS: http://localhost:9200
 Kibana: http://localhost:5601  
 
 # Install the packages to configure ELK and Serilog
-  dotnet add package Serilog.AspNetCore
-  dotnet add package Serilog.Enrichers.Environment
-  dotnet add package Serilog.Sinks.Debug
-  dotnet add package Serilog.Sinks.Elasticsearch
-  dotnet add package Serilog.Exceptions
-  dotnet restore
+   ### dotnet add package Serilog.AspNetCore
+   ### dotnet add package Serilog.Enrichers.Environment
+   ### dotnet add package Serilog.Sinks.Debug
+   ### dotnet add package Serilog.Sinks.Elasticsearch
+   ### dotnet add package Serilog.Exceptions
+   ### dotnet restore
