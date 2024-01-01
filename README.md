@@ -4,8 +4,8 @@
 
 To test they are running we visit the following URLs
 
-ELS: http://localhost:9200
-Kibana: http://localhost:5601  
+ ### ELS: http://localhost:9200
+ ### Kibana: http://localhost:5601  
 
 # Install the packages to configure ELK and Serilog
    ### dotnet add package Serilog.AspNetCore
