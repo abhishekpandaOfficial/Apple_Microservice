@@ -1,6 +1,6 @@
 # Apple Coupon API Microservice with .NET Core 8 , Service Bus , JWT Auth ... 
 ## Execute Docker Command to spin up ELK:
-  ## docker-compose up -d
+     ###  docker-compose up -d
 
 To test they are running we visit the following URLs
 
