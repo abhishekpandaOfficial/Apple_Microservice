@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Apple.Services.CouponAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231226124140_2ndtime")]
-    partial class _2ndtime
+    [Migration("20240102133716_CouponAPI-DB")]
+    partial class CouponAPIDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -55,7 +55,7 @@ namespace Apple.Services.CouponAPI.Migrations
                         {
                             CouponId = 1,
                             CouponCode = "10OFF",
-                            CreatedDateTime = new DateTime(2023, 12, 26, 18, 11, 39, 847, DateTimeKind.Local).AddTicks(3653),
+                            CreatedDateTime = new DateTime(2024, 1, 2, 13, 37, 15, 421, DateTimeKind.Utc).AddTicks(8290),
                             DiscountAmount = 10.0,
                             MinAmount = 10
                         },
@@ -63,7 +63,7 @@ namespace Apple.Services.CouponAPI.Migrations
                         {
                             CouponId = 2,
                             CouponCode = "20OFF",
-                            CreatedDateTime = new DateTime(2023, 12, 26, 18, 11, 39, 847, DateTimeKind.Local).AddTicks(3696),
+                            CreatedDateTime = new DateTime(2024, 1, 2, 13, 37, 15, 421, DateTimeKind.Utc).AddTicks(8325),
                             DiscountAmount = 20.0,
                             MinAmount = 20
                         });

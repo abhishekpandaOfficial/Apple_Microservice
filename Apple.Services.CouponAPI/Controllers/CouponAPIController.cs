@@ -5,6 +5,7 @@ using AutoMapper;
 using Elasticsearch.Net;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Apple.Services.CouponAPI.Controllers
@@ -13,14 +14,14 @@ namespace Apple.Services.CouponAPI.Controllers
     [ApiController]
     public class CouponAPIController : ControllerBase
     {
-        private readonly AppDbContext _dbcotext;
+        private readonly AppDbContext _dbcontext;
         private ResponseDto _response;
         private IMapper _mapper;
         private ILogger<Coupon> _logger;
         public CouponAPIController(AppDbContext dbcontext, IMapper mapper, ILogger<Coupon> logger)
         {
             _logger = logger;
-            _dbcotext = dbcontext;
+            _dbcontext = dbcontext;
             _response = new ResponseDto();
 
             // Using Dependency Injection we will inject Automapper 
@@ -35,9 +36,19 @@ namespace Apple.Services.CouponAPI.Controllers
             try
             {
                 _logger.LogInformation("Coupon Controller Get method- started at {date}", DateTime.UtcNow);
-                IEnumerable<Coupon> objList = _dbcotext.Coupons.ToList();
-                _response.Result = _mapper.Map<IEnumerable<CouponDto>>(objList);
-                _logger.LogInformation("Coupon Controller Get method executed - end at {date}", DateTime.UtcNow);
+                IEnumerable<Coupon?>? objList;
+                if (_dbcontext != null)
+                {
+                    objList = _dbcontext?.Coupons.ToList();
+                    _response.Result = _mapper.Map<IEnumerable<CouponDto>>(objList);
+                    _logger.LogInformation("Coupon Controller Get method executed - end at {date}", DateTime.UtcNow);
+                }
+                else
+                {
+                    // objList is null, handle accordingly
+                    _logger.LogWarning("The Coupons DbSet is null.");
+                    // Additional handling or logging if needed
+                }
             }
             catch (Exception ex)
             {
@@ -56,7 +67,7 @@ namespace Apple.Services.CouponAPI.Controllers
             try
             {
                 _logger.LogInformation("Coupon Controller Get with " + id + "method- started at {date}", DateTime.UtcNow);
-                Coupon obj = _dbcotext.Coupons.First(u => u.CouponId == id);
+                Coupon obj = _dbcontext.Coupons.First(u => u.CouponId == id);
 
                 // Below line will automatically convert the Normal Coupon class Object to DTO object 
                 _response.Result = _mapper.Map<CouponDto>(obj);
@@ -79,7 +90,7 @@ namespace Apple.Services.CouponAPI.Controllers
             try
             {
                 _logger.LogInformation("Coupon Controller Get with " + code + "method- started at {date}", DateTime.UtcNow);
-                Coupon obj = _dbcotext.Coupons.FirstOrDefault(u => u.CouponCode.ToLower() == code.ToLower());
+                Coupon obj = _dbcontext.Coupons.FirstOrDefault(u => u.CouponCode.ToLower() == code.ToLower());
                 if (obj == null)
                 {
                     _response.IsSuccess = false;
@@ -101,14 +112,14 @@ namespace Apple.Services.CouponAPI.Controllers
 
 
         [HttpPost]
-        public ResponseDto post([FromBody] CouponDto couponDto)
+        public async Task<ResponseDto> post([FromBody] CouponDto couponDto)
         {
             try
             {
                 _logger.LogInformation("Coupon Controller Post method - started at {date}", DateTime.UtcNow);
-                Coupon objCoupon = _mapper.Map<Coupon>(couponDto);
-                _dbcotext.Coupons.Add(objCoupon);
-                _dbcotext.SaveChanges();
+                var  objCoupon = _mapper.Map<Coupon>(couponDto);
+                _dbcontext.Coupons.Add(objCoupon);
+                await _dbcontext.SaveChangesAsync();
                 // Below line will automatically convert the Normal Coupon class Object to DTO object 
                 _response.Result = _mapper.Map<CouponDto>(objCoupon);
                 _logger.LogInformation("Coupon Controller Post method - ended at {date}", DateTime.UtcNow);
@@ -131,8 +142,8 @@ namespace Apple.Services.CouponAPI.Controllers
                 _logger.LogInformation("Coupon Controller update method - started at {date}", DateTime.UtcNow);
                 Coupon objCoupon = _mapper.Map<Coupon>(couponDto);
                 objCoupon.CreatedDateTime = DateTime.Now;
-                _dbcotext.Coupons.Update(objCoupon);
-                _dbcotext.SaveChanges();
+                _dbcontext.Coupons.Update(objCoupon);
+                _dbcontext.SaveChanges();
                 // Below line will automatically convert the Normal Coupon class Object to DTO object 
                 _response.Result = _mapper.Map<CouponDto>(objCoupon);
                 _logger.LogInformation("Coupon Controller update method - ended at {date}", DateTime.UtcNow);
@@ -155,10 +166,10 @@ namespace Apple.Services.CouponAPI.Controllers
             try
             {
                 _logger.LogInformation("Coupon Controller Delete method with ID " + id + "- started at {date}", DateTime.UtcNow);
-                Coupon objCoupon = _dbcotext.Coupons.First(u=>u.CouponId == id);
-                
-                _dbcotext.Coupons.Remove(objCoupon);
-                _dbcotext.SaveChanges();
+                Coupon objCoupon = _dbcontext.Coupons.First(u=>u.CouponId == id);
+
+                _dbcontext.Coupons.Remove(objCoupon);
+                _dbcontext.SaveChanges();
                 _logger.LogInformation("Coupon Controller Delete method with ID " + id + "- ended at {date}", DateTime.UtcNow);
             }
             catch (Exception ex)

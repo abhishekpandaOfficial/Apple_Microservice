@@ -5,9 +5,15 @@ namespace Apple.Services.CouponAPI.Data
 {
     public class AppDbContext :DbContext
     {
+        public AppDbContext() : base()
+        {
+           
+        }
         public AppDbContext(DbContextOptions<AppDbContext> options):base(options) { }
 
         public DbSet<Coupon> Coupons { get; set; }
+
+      
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -19,7 +25,7 @@ namespace Apple.Services.CouponAPI.Data
                 CouponCode = "10OFF",
                 DiscountAmount = 10,
                 MinAmount = 10,
-                CreatedDateTime = DateTime.Now
+                CreatedDateTime = DateTime.UtcNow
 
             });
 
@@ -29,7 +35,7 @@ namespace Apple.Services.CouponAPI.Data
                 CouponCode = "20OFF",
                 DiscountAmount = 20,
                 MinAmount = 20,
-                CreatedDateTime = DateTime.Now
+                CreatedDateTime = DateTime.UtcNow
 
             });
         }
