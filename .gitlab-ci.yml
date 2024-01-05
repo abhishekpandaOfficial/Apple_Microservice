@@ -6,8 +6,8 @@ sync:
   script:
     - git clone https://github.com/abhishekpandaOfficial/Apple_Microservice.git github-repo
     - cd github-repo
-    - git config user.email "your-email@example.com"
-    - git config user.name "Your Name"
+    - git config user.email "Official.abhishekpanda@gmail.com"
+    - git config user.name "abhishekpandaOfficial"
     - git fetch origin
 
     # Check if the branch exists
