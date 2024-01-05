@@ -1,4 +1,3 @@
-#Test-1
 stages:
   - sync
 
@@ -24,4 +23,7 @@ sync:
 
     - git add .
     - git commit -m "Sync changes from GitLab"
-    - git push origin $CI_COMMIT_REF_NAME
+    - git push origin $CI_COMMIT_REF_NAME || true  # Ignore failure for now, we'll check CI_JOB_TOKEN
+
+    # Check CI_JOB_TOKEN and push again if available
+    - if [ -n "$CI_JOB_TOKEN" ]; then git push origin $CI_COMMIT_REF_NAME; fi
