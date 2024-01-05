@@ -27,3 +27,11 @@ sync:
 
     # Check CI_JOB_TOKEN and push again if available
     - if [ -n "$CI_JOB_TOKEN" ]; then git push origin $CI_COMMIT_REF_NAME; fi
+     # Attempt to push changes and echo messages for debugging
+    - git push origin $CI_COMMIT_REF_NAME || (echo "Push failed. Trying with CI_JOB_TOKEN"; git push origin $CI_COMMIT_REF_NAME)
+
+    # Check CI_JOB_TOKEN and push again if available
+    - if [ -n "$CI_JOB_TOKEN" ]; then 
+        echo "Trying to push using CI_JOB_TOKEN";
+        git push origin $CI_COMMIT_REF_NAME || echo "CI_JOB_TOKEN push failed";
+      fi
