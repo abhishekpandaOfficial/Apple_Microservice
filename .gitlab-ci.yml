@@ -1,5 +1,3 @@
-# .gitlab-ci.yml
-
 stages:
   - sync
 
@@ -11,7 +9,14 @@ sync:
     - git config user.email "your-email@example.com"
     - git config user.name "Your Name"
     - git fetch origin
-    - git checkout -b $CI_COMMIT_REF_NAME
+
+    # Check if the branch exists
+    - if git show-ref --verify --quiet "refs/heads/$CI_COMMIT_REF_NAME"; then
+        git checkout $CI_COMMIT_REF_NAME
+      else
+        git checkout -b $CI_COMMIT_REF_NAME
+      fi
+
     - cp -r ../. .
     - git add .
     - git commit -m "Sync changes from GitLab"

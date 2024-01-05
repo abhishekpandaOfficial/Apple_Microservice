@@ -28,7 +28,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CouponAPI.Test", "CouponAPI
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Jobs", "Jobs", "{0CBCE518-FDA2-4BE3-996B-E8319D669A9A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HangFire-Email-Job", "HangFire-Email-Job\HangFire-Email-Job.csproj", "{44167971-5895-4A73-A7F0-F2299DBB23F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HangFire-Email-Job", "HangFire-Email-Job\HangFire-Email-Job.csproj", "{44167971-5895-4A73-A7F0-F2299DBB23F3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
