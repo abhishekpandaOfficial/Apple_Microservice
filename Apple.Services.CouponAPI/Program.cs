@@ -6,6 +6,7 @@ using Serilog.Sinks.Elasticsearch;
 using Serilog;
 using System.Reflection;
 using Serilog.Exceptions;
+using Asp.Versioning;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +19,25 @@ builder.Services.AddDbContext<AppDbContext>(option =>
 {
     option.UseSqlServer(builder.Configuration.GetConnectionString("DevConnection"));
 });
+
+// Configuring for API Versioning
+var apiVersioningBuilder = builder.Services.AddApiVersioning(v =>
+{
+    v.AssumeDefaultVersionWhenUnspecified = true;
+    v.DefaultApiVersion = new Asp.Versioning.ApiVersion(1, 0);
+    v.ReportApiVersions = true;
+    v.ApiVersionReader = ApiVersionReader.Combine(
+        new UrlSegmentApiVersionReader(),
+        new QueryStringApiVersionReader("api-version"),
+        new HeaderApiVersionReader("X-Version"),
+        new MediaTypeApiVersionReader("ver"));
+});
+apiVersioningBuilder.AddApiExplorer(options =>
+{
+    options.GroupNameFormat = "'v'VVV"; // GroupNameFormat will format the version as “‘v’major[.minor][-status]”.
+    options.SubstituteApiVersionInUrl = true;
+});
+
 
 // AUtomapper Registration and Basic Configuration
 

@@ -1,0 +1,6 @@
+@HangFire_Email_Job_HostAddress = http://localhost:5070
+
+GET {{HangFire_Email_Job_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
