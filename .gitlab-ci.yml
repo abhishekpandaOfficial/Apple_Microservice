@@ -1,3 +1,4 @@
+
 stages:
   - sync
 
@@ -18,7 +19,9 @@ sync:
         git checkout -b $CI_COMMIT_REF_NAME
       fi
 
-    - cp -r ../. .
+    # Ensure the target directory is not the current directory
+    - if [ "$CI_COMMIT_REF_NAME" != "." ]; then cp -r ../. .; fi
+
     - git add .
     - git commit -m "Sync changes from GitLab"
     - git push origin $CI_COMMIT_REF_NAME
