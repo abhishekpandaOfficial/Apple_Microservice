@@ -19,7 +19,7 @@ sync:
       fi
 
     # Ensure the target directory is not the current directory
-    - if [ "$CI_COMMIT_REF_NAME" != "." ]; then cp -r -- !(github-repo) ../. .; fi
+    - if [ "$CI_COMMIT_REF_NAME" != "." ]; then find ../. -maxdepth 1 -mindepth 1 -not -name "github-repo" -exec cp -r {} ./ \;; fi
 
     - git add .
     - git commit -m "Sync changes from GitLab"
