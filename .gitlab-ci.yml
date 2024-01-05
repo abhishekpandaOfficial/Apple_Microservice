@@ -11,7 +11,8 @@ sync:
     - git fetch origin
 
     # Check if the branch exists
-    - if git show-ref --verify --quiet "refs/heads/$CI_COMMIT_REF_NAME"; then
+    - |
+      if git show-ref --verify --quiet "refs/heads/$CI_COMMIT_REF_NAME"; then
         git checkout $CI_COMMIT_REF_NAME
       else
         git checkout -b $CI_COMMIT_REF_NAME
