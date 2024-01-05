@@ -6,6 +6,7 @@ using AutoMapper;
 using Elasticsearch.Net;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
@@ -13,6 +14,7 @@ namespace Apple.Services.CouponAPI.Controllers
 {
     [Route("api/v{version:apiVersion}/coupon")]
     [ApiController]
+   
     public class CouponAPIController : ControllerBase
     {
         private readonly AppDbContext _dbcontext;
@@ -33,6 +35,7 @@ namespace Apple.Services.CouponAPI.Controllers
 
         [HttpGet]
         [ApiVersion("1.0")]
+        [EnableRateLimiting("EndpointRateLimitPolicy")]
         public ResponseDto Get()
         {
             try

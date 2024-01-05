@@ -7,6 +7,7 @@ using Serilog;
 using System.Reflection;
 using Serilog.Exceptions;
 using Asp.Versioning;
+using AspNetCoreRateLimit;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -39,7 +40,20 @@ apiVersioningBuilder.AddApiExplorer(options =>
 });
 
 
-// AUtomapper Registration and Basic Configuration
+// Rate Limiting Configuration in API
+//The below code registers the required services for rate limiting and
+//configures the IP rate limiting options. 
+//It uses an in-memory cache for storing rate limit counters.
+
+builder.Services.AddMemoryCache();
+builder.Services.AddInMemoryRateLimiting();
+builder.Services.Configure<IpRateLimitOptions>(builder.Configuration.GetSection("IpRateLimiting"));
+builder.Services.Configure<IpRateLimitPolicies>(builder.Configuration.GetSection("IpRateLimitPolicies"));
+builder.Services.AddSingleton<IIpPolicyStore,MemoryCacheIpPolicyStore>();
+builder.Services.AddSingleton<IRateLimitCounterStore,MemoryCacheRateLimitCounterStore>();
+builder.Services.AddSingleton<IRateLimitConfiguration,RateLimitConfiguration>();
+
+// Automapper Registration and Basic Configuration
 
 IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
 builder.Services.AddSingleton(mapper);
@@ -50,7 +64,11 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddLogging(loggingBuilder =>
+{
+    loggingBuilder.AddConsole();
+    loggingBuilder.AddDebug();
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -61,7 +79,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseIpRateLimiting();
 app.UseAuthorization();
 
 app.MapControllers();
