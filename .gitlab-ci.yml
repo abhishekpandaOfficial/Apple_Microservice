@@ -4,7 +4,7 @@ stages:
 sync:
   stage: sync
   script:
-    - git clone https://github.com/abhishekpandaOfficial/Apple_Microservice.git github-repo
+    - git clone https://github.com/abhishekpandaOfficial/Apple_Microservice github-repo
     - cd github-repo
     - git config --global user.email "Official.abhishekpanda@gmail.com"
     - git config --global user.name "abhishekpandaOfficial"
