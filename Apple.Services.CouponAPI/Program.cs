@@ -8,6 +8,8 @@ using System.Reflection;
 using Serilog.Exceptions;
 using Asp.Versioning;
 using AspNetCoreRateLimit;
+using BenchmarkDotNet.Running;
+
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -69,6 +71,8 @@ builder.Services.AddLogging(loggingBuilder =>
     loggingBuilder.AddConsole();
     loggingBuilder.AddDebug();
 });
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

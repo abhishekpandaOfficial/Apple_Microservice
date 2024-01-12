@@ -1,6 +1,7 @@
 ﻿using Apple.Web.Models;
 using Apple.Web.Service.IService;
 using Apple.Web.Utility;
+using static System.Net.WebRequestMethods;
 
 namespace Apple.Web.Service
 {
@@ -20,23 +21,24 @@ namespace Apple.Web.Service
             return await _baseService.SendAsync(new RequestDto()
             {
                 ApiType = SD.ApiTypeEnum.GET,
-                 Url = SD.CouponAPIBase + "/api/coupon"
+                 Url = SD.CouponAPIBase + "/api/v1/coupon"
             });
         }
-        public async Task<ResponseDto?> GetAllCouponByIdAsync(int id)
+        public async Task<ResponseDto?> GetCouponByIdAsync(int id)
         {
             return await _baseService.SendAsync(new RequestDto()
             {
-                ApiType = SD.ApiTypeEnum.GET,
-                Url = SD.CouponAPIBase + "/api/coupon/" + id
-            });
+				ApiType = SD.ApiTypeEnum.GET,
+                Url = SD.CouponAPIBase+ "/api/v1/coupon/GetbyId/"+id
+				//Url = "https://localhost:7001/api/v1/coupon/GetbyId/" + id
+			});
         }
         public async Task<ResponseDto?> GetCouponByCodeAsync(string couponCode)
         {
             return await _baseService.SendAsync(new RequestDto()
             {
                 ApiType = SD.ApiTypeEnum.GET,
-                Url = SD.CouponAPIBase + "/api/coupon/GetByCode/" + couponCode
+                Url = SD.CouponAPIBase + "/api/v1/coupon/GetByCode/" + couponCode
             });
         }
         public async Task<ResponseDto?> CreateCouponAsync(CouponDto couponDto)
@@ -45,7 +47,7 @@ namespace Apple.Web.Service
             {
                 ApiType = SD.ApiTypeEnum.POST,
                  Data = couponDto,
-                Url = SD.CouponAPIBase + "/api/coupon/"
+                Url = SD.CouponAPIBase + "/api/v1/coupon"
             });
         }
         public async Task<ResponseDto?> UpdateCouponAsync(CouponDto couponDto)
@@ -54,16 +56,17 @@ namespace Apple.Web.Service
             {
                 ApiType = SD.ApiTypeEnum.PUT,
                 Data = couponDto,
-                Url = SD.CouponAPIBase + "/api/coupon/"
+                Url = SD.CouponAPIBase + "/api/v1/coupon"
             });
         }
-        public async Task<ResponseDto?> DeleteCouponAsync(int id)
+        public async Task<ResponseDto?> DeleteCouponAsync(int couponId)
         {
             return await _baseService.SendAsync(new RequestDto()
             {
                 ApiType = SD.ApiTypeEnum.DELETE,
-                Url = SD.CouponAPIBase + "/api/coupon/" + id
-            });
+                Url = SD.CouponAPIBase + "/api/v1/coupon/"+couponId
+               // Url = "https://localhost:7001/api/v1/coupon/" + couponId
+			});
         }
 
        

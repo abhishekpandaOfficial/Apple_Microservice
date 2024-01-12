@@ -59,10 +59,10 @@ namespace Apple.Web.Controllers
             }
 			return View(model);
 		}
-
+        [HttpGet]
 		public async Task<IActionResult> CouponDelete(int couponId)
 		{
-			ResponseDto? response = await _couponService.GetAllCouponByIdAsync(couponId);
+			ResponseDto? response = await _couponService.GetCouponByIdAsync(couponId);
 			if (response != null && response.IsSuccess)
 			{
 				CouponDto? model = JsonConvert.DeserializeObject<CouponDto>(Convert.ToString(response.Result));

@@ -3,6 +3,7 @@ using Apple.Services.CouponAPI.Models;
 using Apple.Services.CouponAPI.Models.Dto;
 using Asp.Versioning;
 using AutoMapper;
+using BenchmarkDotNet.Attributes;
 using Elasticsearch.Net;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -36,6 +37,7 @@ namespace Apple.Services.CouponAPI.Controllers
         [HttpGet]
         [ApiVersion("1.0")]
         [EnableRateLimiting("EndpointRateLimitPolicy")]
+        
         public ResponseDto Get()
         {
             try
@@ -66,8 +68,9 @@ namespace Apple.Services.CouponAPI.Controllers
         }
 
         [HttpGet]
-        [Route("{id:int}")]
+        [Route("GetbyId/{id}")]
         [ApiVersion("1.0")]
+        
         public ResponseDto Get(int id)
         {
             try
@@ -92,6 +95,7 @@ namespace Apple.Services.CouponAPI.Controllers
         [HttpGet]
         [Route("GetByCode/{code}")]
         [ApiVersion("1.0")]
+        
         public ResponseDto GetByCode(string code)
         {
             try
@@ -120,6 +124,7 @@ namespace Apple.Services.CouponAPI.Controllers
 
         [HttpPost]
         [ApiVersion("1.0")]
+      
         public async Task<ResponseDto> post([FromBody] CouponDto couponDto)
         {
             try
@@ -144,6 +149,7 @@ namespace Apple.Services.CouponAPI.Controllers
 
         [HttpPut]
         [ApiVersion("1.0")]
+       
         public ResponseDto put([FromBody] CouponDto couponDto)
         {
             try
@@ -171,6 +177,7 @@ namespace Apple.Services.CouponAPI.Controllers
         [HttpDelete]
         [Route("{id:int}")]
         [ApiVersion("1.0")]
+        
         public ResponseDto Delete(int id)
         {
             try
